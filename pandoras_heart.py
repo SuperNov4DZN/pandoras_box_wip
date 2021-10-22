@@ -1,7 +1,7 @@
-import discord, os
+import os
 from discord.ext import commands
 from dotenv import load_dotenv
-from CommandHelp import CommandHelp
+from help.CommandHelp import CommandHelp
 load_dotenv(dotenv_path="secrets\.env")
 
 read_env = os.getenv

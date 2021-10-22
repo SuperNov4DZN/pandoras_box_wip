@@ -21,9 +21,9 @@ class CommandHelp(commands.HelpCommand):
     async def send_cog_help(self, cog):
         message = f'{cog.qualified_name}\n'
 
-        pipipi = {
-            'title': "SuperBot",
-            'description': "Super",
+        embedHelp = {
+            'title': "Comandos Disponíveis",
+            'description': "Python3 BOT WIP",
             'fields': []
         }
 
@@ -33,12 +33,12 @@ class CommandHelp(commands.HelpCommand):
             laga['value'] = command.brief
             laga['inline'] = False
 
-            pipipi['fields'].append(laga)
+            embedHelp['fields'].append(laga)
             message += f'{command.name}: {command.brief}'
 
-        embed = embeds.Embed.from_dict(pipipi)
+            embed = embeds.Embed.from_dict(embedHelp)
 
-        await self.get_destination().send(embed = embeds.Embed.from_dict(pipipi))
+        await self.get_destination().send(embed = embed)
 
     async def send_group_help(self, group):
         await self.get_destination().send(f'{group.name}: {[command.name for index, command in enumerate(group.commands)]}')
