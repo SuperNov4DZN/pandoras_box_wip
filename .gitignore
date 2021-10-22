@@ -1,0 +1,9 @@
+# Ignore folders
+/.venv
+/.vscode
+/tests
+
+# Ignore Files
+/secrets/.env
+/data/roles.json
+/data/simpleDB_DB.json

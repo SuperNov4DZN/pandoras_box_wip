@@ -1,0 +1,47 @@
+DiscordBot.py:
+  Main functions:
+    ✔ Simple usable bot @done(21-10-14 14:13)
+    ✔ Apply "cogs" (extensions) development method to the code @done(21-10-14 14:15)
+    ✔ Store data in local JSON files @done(21-10-14 14:16)
+    ✔ Add DB (firebase live db) integration uploading the JSON struct to the DB @done(21-10-14 14:16)
+    ☐ Refactor the code using itens ([4], [5]) functionalities
+
+    Addrole Command:
+      ☐ Make a command that adds the wanted roles (passed as *args) to the invoker or mentioned user
+      
+      Reaction based:
+        ☐ Use slashCommands to configure the reactions and "key" message if possible
+        ☐ If the user reacts it gives a role, if the reaction is removed the role is revoked
+        ☐ Store everything in the DB (Main functions [4])
+
+# POSSIBLE DB STRUCT {
+  reactions = {
+    message_id (message.id) {
+      possible_reactions = [reactions],
+      role_ids = [reactions.roles.id],
+      users_that_reacted (user.id) {
+        user_name = user.name,
+        user_reactions = [reactions],
+        user_role_ids = [user.reactions.roles.id]
+      }
+    }
+  }
+}
+
+# POSSIBLE PYTHON DICT'S {
+  user_dict = {
+    user_name
+    user_reactions
+    user_role_ids
+  }
+
+  reactions_dict = {
+    possible_reactions
+    role_ids
+    user_id {user_dict}
+  }
+}
+
+# POSSIBLE UPDATE STRUCT {
+  role_data.update({message_id: reactions_dict})
+}
