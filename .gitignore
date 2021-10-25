@@ -5,6 +5,6 @@
 
 # Ignore Files
 /secrets/.env
-/data/roles.json
-/data/simpleDB_DB.json
+# /data/roles.json
+# /data/simpleDB_DB.json
 /Pipfile.lock

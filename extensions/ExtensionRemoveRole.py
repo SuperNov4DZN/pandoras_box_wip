@@ -4,7 +4,7 @@ from discord.utils import get
 
 _PATH_JSON_DB = 'data/roles.json'
 
-class CommandRemoveRole(commands.Cog, name="Remove roles"):
+class ExtensionRemoveRole(commands.Cog, name="Remove roles"):
     def __init__(self, client):
         self.client = client
 
@@ -26,7 +26,7 @@ class CommandRemoveRole(commands.Cog, name="Remove roles"):
                     json_data = json.load(f)
 
                 except json.decoder.JSONDecodeError:
-                    raise ValueError(f'CommandAddRole.command_insert(): JSONDecodeError in {_PATH_JSON_DB}')
+                    raise ValueError(f'ExtensionRemoveRole.command_insert(): JSONDecodeError in {_PATH_JSON_DB}')
 
         for arg_index in range(len(args)):
             # if the arg is a user mention
@@ -58,4 +58,4 @@ class CommandRemoveRole(commands.Cog, name="Remove roles"):
             json.dump(json_data, f, indent=4)
 
 def setup(client):
-    client.add_cog(CommandRemoveRole(client))
+    client.add_cog(ExtensionRemoveRole(client))

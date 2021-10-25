@@ -23,7 +23,7 @@ firebase = pyrebase.initialize_app(dbconfig)
 db = firebase.database()
 # endregion
 
-class CommandSimpleDB(commands.Cog, name="Simple DB"):
+class ExtensionSimpleDB(commands.Cog, name="Simple DB"):
     def __init__(self, client):
         self.client = client
 
@@ -40,7 +40,7 @@ class CommandSimpleDB(commands.Cog, name="Simple DB"):
                     json_data = json.load(f)
                 
                 except json.decoder.JSONDecodeError: # badly formatted JSON file
-                    raise ValueError(f'CommandSimpleDB.command_insert(): JSONDecodeError in {_PATH_JSON_DB}')
+                    raise ValueError(f'ExtensionSimpleDB.command_insert(): JSONDecodeError in {_PATH_JSON_DB}')
         
         uid = str(user.id)
         rid = str(role.id)
@@ -70,4 +70,4 @@ class CommandSimpleDB(commands.Cog, name="Simple DB"):
             db.child("users").child(uid).set(json_data[uid])
 
 def setup(client):
-    client.add_cog(CommandSimpleDB(client))
+    client.add_cog(ExtensionSimpleDB(client))

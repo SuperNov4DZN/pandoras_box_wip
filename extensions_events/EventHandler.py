@@ -4,7 +4,7 @@ used_commands = {
 
 }
 
-class CommandEventHandler(commands.Cog, name="Event Handler"):
+class EventHandler(commands.Cog, name="Event Handler"):
     def __init__(self, client):
         self.client = client
 
@@ -26,4 +26,4 @@ class CommandEventHandler(commands.Cog, name="Event Handler"):
     #     await ctx.reply(f'{ctx.command.name} was used correctly')
 
 def setup(client):
-    client.add_cog(CommandEventHandler(client))
+    client.add_cog(EventHandler(client))
