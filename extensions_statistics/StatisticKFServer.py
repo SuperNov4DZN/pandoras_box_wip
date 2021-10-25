@@ -1,11 +1,14 @@
 from datetime import datetime
 from discord import embeds
-from discord.ext import commands
-from discord.ext import tasks
-import valve.source.a2s
+from discord.ext import commands, tasks
+from dotenv import load_dotenv
+import os, valve.source.as2
+load_dotenv(dotenv_path="secrets\.env")
+
+read_env = os.getenv
 
 # Killing floor 2 Server IP / PORT
-KF_SERVER_ADDRESS = ("20.195.198.135", 27015)
+KF_SERVER_ADDRESS = (read_env("KF2_SERVERIP"), read_env("KF2_SERVERPORT"))
 
 # Channel where the "message to change" is
 CHANNEL_ID = 892259015093014623
