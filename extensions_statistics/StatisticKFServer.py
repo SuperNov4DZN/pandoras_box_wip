@@ -2,7 +2,7 @@ from datetime import datetime
 from discord import embeds
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
-import os, valve.source.as2
+import os, valve.source.a2s
 load_dotenv(dotenv_path="secrets\.env")
 
 read_env = os.getenv
