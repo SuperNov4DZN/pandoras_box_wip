@@ -9,7 +9,6 @@ python-dotenv = "*"
 pyrebase4 = "*"
 python-valve = "*"
 requests = "*"
-beautifulsoup4 = "*"
 
 [dev-packages]
 
