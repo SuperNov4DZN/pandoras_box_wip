@@ -1,4 +1,5 @@
-import os, json
+import json
+import os
 from discord.ext import commands
 
 
@@ -9,7 +10,8 @@ class ExtensionConfigChannels(commands.Cog, name="Config channels"):
     @commands.command(name='channels',
                       aliases=['c', 'canais'],
                       brief="``channels online #membrosonline``",
-                      description="Configuração dos canais de estatísticas do servidor.\nDevem ser configurados os canais \'online\', \'jogando\' e \'total\'.")
+                      description="Configuração dos canais de estatísticas do servidor."
+                                  "\nDevem ser configurados os canais \'online\', \'jogando\' e \'total\'.")
     async def channel_online(self, ctx, *args):
         if not args or len(args) < 2:
             await ctx.reply(f'{ctx.message.author.mention} please mention the channel being configured')

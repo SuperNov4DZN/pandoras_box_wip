@@ -3,6 +3,7 @@ from discord import embeds
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
 import os, valve.source.a2s
+
 load_dotenv(dotenv_path="secrets\.env")
 
 read_env = os.getenv
@@ -16,16 +17,19 @@ CHANNEL_ID = 892259015093014623
 # Message to change
 MESSAGE_ID = 901674705612832878
 
+
 # region Class / Constructor
 class StatisticKFServer(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.fetch_server_info.start()
-# endregion
 
-# region Loop every 60 seconds
+    # endregion
+
+    # region Loop every 60 seconds
     @tasks.loop(seconds=60)
     # region Get server / players info
+    # TODO: Fix exception
     async def fetch_server_info(self):
         try:
             with valve.source.a2s.ServerQuerier(KF_SERVER_ADDRESS) as server:
@@ -46,16 +50,18 @@ class StatisticKFServer(commands.Cog):
             jogadores.append((value.values['name'], value.values['score'], value.values['duration']))
 
         await self.enviar_embed_jogador(server, nome, mapa, online, capacidade, jogadores)
+
     # endregion
 
     # Wait until the bot is ready then start the loop
     @fetch_server_info.before_loop
     async def esperar_bot_online(self):
         await self.client.wait_until_ready()
-# endregion
 
-# region Player info Embed
-    async def enviar_embed_jogador(self, server, nome , mapa, online, capacidade, jogadores):
+    # endregion
+
+    # region Player info Embed
+    async def enviar_embed_jogador(self, server, nome, mapa, online, capacidade, jogadores):
         emb = {
             'title': f"{nome} - ({online}/{capacidade})",
             'description': f"**Mapa atual:** {mapa}",
@@ -85,6 +91,8 @@ class StatisticKFServer(commands.Cog):
         embed.timestamp = datetime.utcnow()
 
         await mensagem.edit(embed=embed)
+
+
 # endregion
 
 def setup(client):

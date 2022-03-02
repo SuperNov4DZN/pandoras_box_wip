@@ -1,8 +1,10 @@
-import os, json
+import json
+import os
 from discord.ext import commands
 from discord.utils import get
 
 _PATH_JSON_DB = 'data/roles.json'
+
 
 class ExtensionRemoveRole(commands.Cog, name="Remove roles"):
     def __init__(self, client):
@@ -56,6 +58,7 @@ class ExtensionRemoveRole(commands.Cog, name="Remove roles"):
         with open(_PATH_JSON_DB, 'w') as f:
             f.seek(0)
             json.dump(json_data, f, indent=4)
+
 
 def setup(client):
     client.add_cog(ExtensionRemoveRole(client))

@@ -19,6 +19,7 @@ bot_prefix = read_env("BOT_PREFIX")
 # Creat a new bot client
 client = commands.Bot(command_prefix=bot_prefix, help_command=HelpAll())
 
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}.')

@@ -1,6 +1,7 @@
 import pyrebase, os, json, discord
 from discord.ext import commands
 from dotenv import load_dotenv
+
 load_dotenv(dotenv_path="secrets\.env")
 
 read_env = os.getenv
@@ -21,6 +22,8 @@ dbconfig = {
 firebase = pyrebase.initialize_app(dbconfig)
 
 db = firebase.database()
+
+
 # endregion
 
 
@@ -28,25 +31,25 @@ class ExtensionSimpleDB(commands.Cog, name="Simple DB"):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(name='idb', aliases=['db','insert'])
+    @commands.command(name='idb', aliases=['db', 'insert'])
     async def command_insert(self, ctx, user: discord.User, role: discord.Role):
-        message_author = ctx.message.author.mention # author
+        message_author = ctx.message.author.mention  # author
 
-        if os.stat(_PATH_JSON_DB).st_size == 0: # if file is empty
-            json_data = {}# init an empty json
-        
+        if os.stat(_PATH_JSON_DB).st_size == 0:  # if file is empty
+            json_data = {}  # init an empty json
+
         else:
-            with open(_PATH_JSON_DB, 'r') as f: # attempt to open file
+            with open(_PATH_JSON_DB, 'r') as f:  # attempt to open file
                 try:
                     json_data = json.load(f)
-                
-                except json.decoder.JSONDecodeError: # badly formatted JSON file
+
+                except json.decoder.JSONDecodeError:  # badly formatted JSON file
                     raise ValueError(f'ExtensionSimpleDB.command_insert(): JSONDecodeError in {_PATH_JSON_DB}')
-        
+
         uid = str(user.id)
         rid = str(role.id)
 
-        if json_data.get(uid) is not None: # user exists
+        if json_data.get(uid) is not None:  # user exists
             # add role if it's not there yet
             if rid not in json_data[uid]['role_id']:
                 json_data[uid]['role_id'].append(rid)
@@ -54,7 +57,7 @@ class ExtensionSimpleDB(commands.Cog, name="Simple DB"):
             if role.name not in json_data[uid]['role_name']:
                 json_data[uid]['role_name'].append(role.name)
 
-        else: # user doesn't exists
+        else:  # user doesn't exists
             # print('falls under the else')
             user_dict = {
                 'user_name': user.name,
@@ -63,7 +66,7 @@ class ExtensionSimpleDB(commands.Cog, name="Simple DB"):
             }
 
             json_data.update({uid: user_dict})
-        
+
         # write to file
         with open(_PATH_JSON_DB, 'w') as f:
             f.seek(0)
