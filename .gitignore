@@ -1,6 +1,8 @@
 # Ignore folders
 /.venv
+/.idea
 /.vscode
+/data
 /tests
 
 # Ignore Files

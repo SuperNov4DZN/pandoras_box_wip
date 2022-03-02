@@ -23,6 +23,7 @@ firebase = pyrebase.initialize_app(dbconfig)
 db = firebase.database()
 # endregion
 
+
 class ExtensionSimpleDB(commands.Cog, name="Simple DB"):
     def __init__(self, client):
         self.client = client
@@ -68,6 +69,7 @@ class ExtensionSimpleDB(commands.Cog, name="Simple DB"):
             f.seek(0)
             json.dump(json_data, f, indent=4)
             db.child("users").child(uid).set(json_data[uid])
+
 
 def setup(client):
     client.add_cog(ExtensionSimpleDB(client))

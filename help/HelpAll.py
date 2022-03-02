@@ -41,7 +41,7 @@ class HelpAll(commands.HelpCommand):
 
         embed = embeds.Embed.from_dict(help_embed)
 
-        await self.get_destination().send(embed = embeds.Embed.from_dict(help_embed))
+        await self.get_destination().send(embed=embeds.Embed.from_dict(help_embed))
 # endregion
 
 # region IDK

@@ -1,10 +1,8 @@
+import json, os
 import discord
 from discord.ext import commands
 from discord.ext import tasks
 
-canal_total_member = 892280493293338674
-canal_member_on = 893691402595217408
-canal_member_playing = 893702330510344223
 
 # region Class / Constructor
 class StatisticDSServer(commands.Cog):
@@ -12,6 +10,7 @@ class StatisticDSServer(commands.Cog):
         self.client = client
         self.pode_rodar = [False, False]
         self.switch_pode_rodar.start()
+        self.canais = load_channels()
         self.qtd_membros_online = 0
         self.qtd_membros_jogando = 0
 # endregion
@@ -19,9 +18,9 @@ class StatisticDSServer(commands.Cog):
 # region Member join - leave
     @commands.Cog.listener()
     async def on_member_join(self, ctx):
-        canal = ctx.guild.get_channel(canal_total_member)
-        qtdMembros = sum(not member.bot for member in ctx.guild.members)
-        await canal.edit(name=f'👨‍👧‍👦 - Membros: {qtdMembros}')
+        canal = ctx.guild.get_channel(self.canais['total'])
+        qtd_membros = sum(not member.bot for member in ctx.guild.members)
+        await canal.edit(name=f'👨‍👧‍👦 - Membros: {qtd_membros}')
 
     @commands.Cog.listener()
     async def on_member_remove(self, ctx):
@@ -40,25 +39,25 @@ class StatisticDSServer(commands.Cog):
 
 # region Atualizar membro Online
     async def atualizar_membros_on(self, ctx):
-        canal = ctx.guild.get_channel(canal_member_on)
-        qtdMembros = sum(
+        canal = ctx.guild.get_channel(self.canais['online'])
+        qtd_membros = sum(
             member.status != discord.Status.offline and not member.bot for member in ctx.guild.members)
 
-        if self.pode_rodar[0] and qtdMembros != self.qtd_membros_online:
-            self.qtd_membros_online = qtdMembros
-            await canal.edit(name=f'✅ - Online: {qtdMembros}')
+        if self.pode_rodar[0] and qtd_membros != self.qtd_membros_online:
+            self.qtd_membros_online = qtd_membros
+            await canal.edit(name=f'✅ - Online: {qtd_membros}')
             self.pode_rodar[0] = False
 # endregion
 
 # region Atualizar status membro
     async def atualizar_membros_jogando(self, ctx):
-        canal = ctx.guild.get_channel(canal_member_playing)
-        qtdMembros = sum(
+        canal = ctx.guild.get_channel(self.canais['jogando'])
+        qtd_membros = sum(
             member.activity is not None and member.activity.type == discord.ActivityType.playing and not member.bot for member in ctx.guild.members)
 
-        if self.pode_rodar[1] and qtdMembros != self.qtd_membros_jogando:
-            self.qtd_membros_online = qtdMembros
-            await canal.edit(name=f'🎮 - Jogando: {qtdMembros}')
+        if self.pode_rodar[1] and qtd_membros != self.qtd_membros_jogando:
+            self.qtd_membros_online = qtd_membros
+            await canal.edit(name=f'🎮 - Jogando: {qtd_membros}')
             self.pode_rodar[1] = False
 # endregion
 
@@ -71,6 +70,16 @@ class StatisticDSServer(commands.Cog):
     async def esperar_bot_online(self):
         await self.client.wait_until_ready()
 # endregion
+
+
+def load_channels():
+    caminho = "./data/channels.json"
+    arquivo_existe = os.path.isfile(caminho)
+    if arquivo_existe:
+        with open(caminho, 'r') as json_data:
+            channels = json.load(json_data)
+            return channels
+
 
 def setup(client):
     client.add_cog(StatisticDSServer(client))

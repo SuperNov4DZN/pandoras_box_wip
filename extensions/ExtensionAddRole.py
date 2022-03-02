@@ -4,7 +4,8 @@ from discord.utils import get
 
 _PATH_JSON_DB = 'data/roles.json'
 
-class ExtensionAddRole(commands.Cog, name= "Add roles"):
+
+class ExtensionAddRole(commands.Cog, name="Add roles"):
     def __init__(self, client):
         self.client = client
 
@@ -51,7 +52,7 @@ class ExtensionAddRole(commands.Cog, name= "Add roles"):
         if json_data.get(uid) is not None:
             json_data[uid]['role_id'] = list(set().union(json_data[uid]['role_id'], ids_list))
             json_data[uid]['role_name'] = list(set().union(json_data[uid]['role_name'], names_list))
-        
+
         else:
             user_dict = {
                 'user_name': member_object.name,
@@ -65,6 +66,7 @@ class ExtensionAddRole(commands.Cog, name= "Add roles"):
         with open(_PATH_JSON_DB, 'w') as f:
             f.seek(0)
             json.dump(json_data, f, indent=4)
+
 
 def setup(client):
     client.add_cog(ExtensionAddRole(client))
