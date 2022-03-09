@@ -17,20 +17,34 @@ class ExtensionConfigChannels(commands.Cog, name="Config channels"):
             await ctx.reply(f'{ctx.message.author.mention} please mention the channel being configured')
 
         channel = args[0]
-        channel_mention = args[1]
+        channel_mention = 0
+
+        if channel != "online" and channel != "jogando" and channel != "total":
+            await ctx.reply(
+                f'O tipo de canal informado não é válido! {channel} deve ser **online**, **jogando** ou **total**')
+            return
+
+        try:
+            channel_mention = int(args[1])
+        except ValueError:
+            await ctx.reply("O id do canal informado não é válido")
+            return
 
         caminho = "./data/channels.json"
-        json_data = open(caminho, 'w+')
+
+        json_buff = None
 
         if os.stat(caminho).st_size == 0:
             json_buff = {}
 
-        else:
-            json_buff = json.load(json_data)
+        with open(caminho, 'r+') as json_data:
+            if json_buff is None:
+                json_buff = json.load(json_data)
 
-        json_buff[channel] = channel_mention
-        json.dump(json_buff, json_data)
-        json_data.close()
+            json_data.seek(0, 0)
+            json_buff[channel] = channel_mention
+            json.dump(json_buff, json_data)
+            json_data.close()
 
 
 def setup(client):

@@ -1,4 +1,5 @@
 import os
+import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 from help.HelpAll import HelpAll
@@ -17,7 +18,10 @@ bot_token = read_env("BOT_TOKEN")
 bot_prefix = read_env("BOT_PREFIX")
 
 # Creat a new bot client
-client = commands.Bot(command_prefix=bot_prefix, help_command=HelpAll())
+intents = discord.Intents().default()
+intents.members = True
+intents.presences = True
+client = commands.Bot(command_prefix=bot_prefix, help_command=HelpAll(), intents=intents)
 
 
 @client.event

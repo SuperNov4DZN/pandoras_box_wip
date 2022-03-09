@@ -8,18 +8,31 @@ class HelpAll(commands.HelpCommand):
 
     # region General BOT help
     async def send_bot_help(self, mapping):
-        # TODO: Make an embed
-        message = ""
+        help_embed = {
+            'title': "MODULES",
+            'description': "Módulos disponíveis",
+            'fields': [],
+            'footer': {'text': "Super me dá uma sugada singela"}
+        }
+
         for cog in mapping:
             if cog is None or len(mapping[cog]) == 0:
                 continue
-            message += f'{cog.qualified_name}\n'
 
+            cog_info = {'name': cog.qualified_name}
+
+            cog_commands = ""
             for command in mapping[cog]:
-                message += f'`{command.name}`,'
-            message += "\n\n"
+                if command != mapping[cog][-1]:
+                    cog_commands += f'`{command.name}`, '
+                else:
+                    cog_commands += f'`{command.name}`'
 
-        await self.get_destination().send(message)
+            cog_info['value'] = cog_commands
+            cog_info['inline'] = False
+            help_embed['fields'].append(cog_info)
+
+        await self.get_destination().send(embed=embeds.Embed.from_dict(help_embed))
 
     # endregion
 
